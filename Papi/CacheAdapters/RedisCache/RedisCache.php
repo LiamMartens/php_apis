@@ -13,7 +13,7 @@
     use Tomaj\Hermes\Message;
     use Tomaj\Hermes\Emitter;
     use Tomaj\Hermes\Driver\RedisSetDriver;
-    use Curl\Curl;
+    use anlutro\cURL\Request;
 
     class RedisCache extends CacheAdapter {
         /** @var string The Redis host */
@@ -43,11 +43,14 @@
         /**
          * For getting a value from cache
          *
-         * @param string $fingerprint
+         * @param Request $request
          * @param array $default
          * @return array
          */
-        public function get(string $fingerprint, bool &$expired = null) : array {
+        public function get(Request $request, bool &$expired = null) : array {
+            // create fingerprint
+            $fingerprint = $this->fingerprint($request);
+            // get cached data
             $data = $this->_redis->get($fingerprint);
             // return empty if key didn't exist
             if($data===false) {
@@ -64,12 +67,12 @@
         /**
          * For directly setting a value in cache
          *
-         * @param string $fingerprint
+         * @param Request $request
          * @param array $data
          * @return bool
          */
-        public function set(string $fingerprint, array $data) : bool {
-            return $this->_redis->set($fingerprint, json_encode([
+        public function set(Request $request, array $data) : bool {
+            return $this->_redis->set($this->fingerprint($request), json_encode([
                 'updated' => time(),
                 'data' => $data
             ]));
@@ -83,9 +86,9 @@
          * @param Curl $request
          * @return bool
          */
-        public function update(Curl $request) : bool {
+        public function update(Request $request) : bool {
             $message = new Message(CacheAdapter::EMIT_UPDATE, [
-                'request' => serialize($query)
+                'request' => serialize($request)
             ]);
             return (!!$this->_emitter->emit($message));
         }
