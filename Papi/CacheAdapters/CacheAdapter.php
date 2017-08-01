@@ -6,37 +6,6 @@
         const EMIT_UPDATE = 'Papi/CacheAdapters/RedisCache/RedisCache/update';
 
         /**
-         * Creates a string fingerprint from a Request
-         *
-         * @param Request $r
-         * @return string
-         */
-        public static function createFingerprint(Request $r) : string {
-            // get fingerprint variables
-            $method = $r->getMethod();
-            $url = $r->getUrl();
-            $headers = $r->getHeaders();
-            $cookies = $r->getCookies();
-            $data = $r->getData();
-            $encoding = $r->getEncoding();
-            $options = $r->getOptions();
-            $params = [ $method, $url, $headers, $cookies, $data, $encoding, $options ];
-            // create hash fingerprint
-            $hash = md5(print_r($params, true));
-            return $hash.'_'.$r->getUrl();
-        }
-
-        /**
-         * Creates a string fingerprint from a Request
-         *
-         * @param Request $r
-         * @return string
-         */
-        public function fingerprint(Request $r) : string {
-            return CacheAdapter::createFingerprint($r);
-        }
-
-        /**
          * For getting a value from cache
          *
          * @param Request $query

@@ -3,7 +3,7 @@
     use Papi\CacheAdapters\CacheAdapterAware;
     use Papi\CacheAdapters\CacheAdapter;
     use anlutro\cURL\cURL;
-    use anlutro\cURL\Request;
+    use anlutro\cURL\Request as R;
 
     class Query extends CacheAdapterAware {
         /**
@@ -139,7 +139,10 @@
                 'query' => $query,
                 'variables' => $values
             ])->setHeader('Authorization', 'Bearer '.$this->_token);
-            return $request;
+            // set request
+            $r = new Request();
+            $r->setRequest($request);
+            return $r;
         }
 
         /**
@@ -162,7 +165,7 @@
                 // if empty? return synchronously
                 if(empty($data)) {
                    $response = $request->send();
-                   $data = json_decode($response->body, true);
+                   $data = json_decode($response, true);
                    $cache->set($request, $data);
                    return $data; 
                 }
@@ -176,6 +179,6 @@
             // just execute sychronously
             $this->_executed = true;
             $response = $request->send();
-            return json_decode($response->body, true);
+            return json_decode($response, true);
         }
     }

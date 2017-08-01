@@ -51,14 +51,9 @@
             $request = unserialize($payload['request']);
             // execute query
             $response = $request->send();
-            if($response->statusCode > 299) {
-                // a response code over 2xx usually means
-                // a fail
-                return false;
-            }
-            $this->_redis->set(CacheAdapter::createFingerprint($request), json_encode([
+            $this->_redis->set($request->fingerprint(), json_encode([
                 'updated' => time(),
-                'data' => json_decode($response->body, true)
+                'data' => json_decode($response, true)
             ]));
             return true;
         }

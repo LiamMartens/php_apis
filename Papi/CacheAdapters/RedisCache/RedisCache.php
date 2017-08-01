@@ -13,7 +13,7 @@
     use Tomaj\Hermes\Message;
     use Tomaj\Hermes\Emitter;
     use Tomaj\Hermes\Driver\RedisSetDriver;
-    use anlutro\cURL\Request;
+    use Papi\Request;
 
     class RedisCache extends CacheAdapter {
         /** @var string The Redis host */
@@ -49,7 +49,7 @@
          */
         public function get(Request $request, bool &$expired = null) : array {
             // create fingerprint
-            $fingerprint = $this->fingerprint($request);
+            $fingerprint = $request->fingerprint();
             // get cached data
             $data = $this->_redis->get($fingerprint);
             // return empty if key didn't exist
@@ -72,7 +72,7 @@
          * @return bool
          */
         public function set(Request $request, array $data) : bool {
-            return $this->_redis->set($this->fingerprint($request), json_encode([
+            return $this->_redis->set($request->fingerprint(), json_encode([
                 'updated' => time(),
                 'data' => $data
             ]));
