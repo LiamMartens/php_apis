@@ -16,16 +16,16 @@
     foreach($argv as $index => $value) {
         $eq_index = strpos($value, '=');
         if($eq_index===false) {
-            $eq_index = strlen($key);
+            $eq_index = strlen($value) - 1;
         }
-        $key = substr($value, 0, $eq_index);
+        $key = substr($value, 0, $eq_index + 1);
         // switch the key
         switch($key) {
             case '--host=':
-                $host = substr($value, $eq_index);
+                $host = substr($value, $eq_index + 1);
                 break;
             case '--port=':
-                $port = intval(substr($value, $eq_index));
+                $port = intval(substr($value, $eq_index + 1));
                 break;
             case '-h':
                 $host = $argv[$index+1];
@@ -50,7 +50,7 @@
             // decode payload
             $request = unserialize($payload['request']);
             // execute query
-            $response = $query->send();
+            $response = $request->send();
             if($response->statusCode > 299) {
                 // a response code over 2xx usually means
                 // a fail
