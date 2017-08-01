@@ -23,10 +23,10 @@
             $params = [ $method, $url, $headers, $cookies, $data, $encoding, $options ];
             // create hash fingerprint
             $hash = md5(print_r($params, true));
-            return $hash.'_'.$r->getUrl();
+            return $hash.'_'.$this->_request->getUrl();
         }
 
-        public function send() {
+        public function send() : array {
             $response = $this->_request->send();
             if($response->statusCode > 299) {
                 return [];

@@ -164,9 +164,9 @@
                 $data = $cache->get($request, $expired);
                 // if empty? return synchronously
                 if(empty($data)) {
-                   $response = $request->send();
-                   $cache->set($request, $data);
-                   return $data; 
+                    $data = $request->send();
+                    $cache->set($request, $data);
+                    return $data; 
                 }
                 // if expired call for update and return cached data
                 if($expired) {
