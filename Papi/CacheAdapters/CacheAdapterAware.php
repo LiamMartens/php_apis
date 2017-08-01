@@ -9,7 +9,7 @@
             $this->_cache = $adapter;
         }
 
-        public function getCacheAdapter() : CacheAdapter {
+        public function getCacheAdapter() {
             return $this->_cache;
         }
     }

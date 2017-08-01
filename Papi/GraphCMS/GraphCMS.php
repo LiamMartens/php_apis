@@ -369,7 +369,9 @@
          */
         public function query(string $type, string $method, array $fields = [], array $variables = [], array $params = []) : Query {
             $q = new Query($type, $method, $fields, $variables, $params);
-            $q->setCacheAdapter($this->getCacheAdapter());
+            if(!empty($cache=$this->getCacheAdapter())) {
+                $q->setCacheAdapter($cache);
+            }
             $q->setProjectId($this->_project)->setToken($this->_token);
             $this->_queries[] = $q;
             return $q;

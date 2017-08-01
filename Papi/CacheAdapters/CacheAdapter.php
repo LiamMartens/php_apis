@@ -12,8 +12,17 @@
          * @return string
          */
         public static function createFingerprint(Request $r) : string {
+            // get fingerprint variables
+            $method = $r->getMethod();
+            $url = $r->getUrl();
+            $headers = $r->getHeaders();
+            $cookies = $r->getCookies();
+            $data = $r->getData();
+            $encoding = $r->getEncoding();
+            $options = $r->getOptions();
+            $params = [ $method, $url, $headers, $cookies, $data, $encoding, $options ];
             // create hash fingerprint
-            $hash = md5(print_r($r, true));
+            $hash = md5(print_r($params, true));
             return $hash.'_'.$r->getUrl();
         }
 
