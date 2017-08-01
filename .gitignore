@@ -1,0 +1,3 @@
+nohup.out
+composer.lock
+CacheAdapters/*/vendor/*
