@@ -78,4 +78,17 @@
             }
             return $table;
         }
+
+        /**
+         * Creates a files commands wrapper
+         *
+         * @return Files
+         */
+        public function files() : Files {
+            $files = new Files($this->getApiUrl());
+            if(!empty($cache=$this->getCacheAdapter())) {
+                $files->setCacheAdapter($cache);
+            }
+            return $files;
+        }
     }
