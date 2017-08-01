@@ -1,3 +1,2 @@
-nohup.out
-composer.lock
-CacheAdapters/*/vendor/*
+bak/*
+vendor/*
