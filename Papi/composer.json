@@ -1,6 +1,6 @@
 {
     "require": {
-        "curl/curl": "^1.7",
-        "tomaj/hermes": "^1.3"
+        "tomaj/hermes": "^1.3",
+        "anlutro/curl": "^1.4"
     }
 }
