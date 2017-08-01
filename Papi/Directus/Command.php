@@ -69,10 +69,10 @@
             $curl = new cURL();
             // build the url
             $url = $curl->buildUrl($this->_url.'/'.trim($this->_path, '/'),
-                    ($this->_method==Command::METHOD_GET) ? $data : []);
+                    ($this->_method==Command::METHOD_GET) ? $values : []);
             // build the request
             $request = $curl->newJsonRequest($this->_method, $url,
-                        ($this->_method!=Command::METHOD_GET) ? $data : []);
+                        ($this->_method!=Command::METHOD_GET) ? $values : []);
             $request->setHeader('Authorization', 'Bearer '.$this->_key);
             // return the request
             return $request;

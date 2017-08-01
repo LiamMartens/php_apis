@@ -41,7 +41,7 @@
         public function command(string $method, string $path, array $data = []) : Command {
             $command = new Command($this->getApiUrl(), $method, $path, $data);
             if(!empty($cache=$this->getCacheAdapter())) {
-                $c->setCacheAdapter($cache);
+                $command->setCacheAdapter($cache);
             }
             return $command;
         }
@@ -55,7 +55,7 @@
         public function table(string $name) : Table {
             $table = new Table($this->getApiUrl(), $name);
             if(!empty($cache=$this->getCacheAdapter())) {
-                $c->setCacheAdapter($cache);
+                $table->setCacheAdapter($cache);
             }
             return $table;
         }
