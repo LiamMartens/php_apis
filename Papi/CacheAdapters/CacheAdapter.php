@@ -1,7 +1,10 @@
 <?php
     namespace Papi\CacheAdapters;
+    use Curl\Curl;
 
     abstract class CacheAdapter {
+        const EMIT_UPDATE = 'Papi/CacheAdapters/RedisCache/RedisCache/update';
+
         /**
          * For getting a value from cache
          *
@@ -9,7 +12,7 @@
          * @param array $default
          * @return array
          */
-        public abstract function get(string $query, bool &$expired = null) : array;
+        public abstract function get(string $request, bool &$expired = null) : array;
 
         /**
          * For directly setting a value in cache
@@ -18,7 +21,7 @@
          * @param array $data
          * @return bool
          */
-        public abstract function set(string $query, array $data) : bool;
+        public abstract function set(string $request, array $data) : bool;
 
         /**
          * For updating a value in cache
@@ -28,5 +31,5 @@
          * @param Query $query
          * @return bool
          */
-        public abstract function update(Cacheable $query, array $values = []) : bool;
+        public abstract function update(Curl $request) : bool;
     }
