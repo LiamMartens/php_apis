@@ -165,7 +165,6 @@
                 // if empty? return synchronously
                 if(empty($data)) {
                    $response = $request->send();
-                   $data = json_decode($response, true);
                    $cache->set($request, $data);
                    return $data; 
                 }
@@ -178,7 +177,6 @@
             }
             // just execute sychronously
             $this->_executed = true;
-            $response = $request->send();
-            return json_decode($response, true);
+            return $request->send();
         }
     }

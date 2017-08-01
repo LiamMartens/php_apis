@@ -31,9 +31,7 @@
          */
         public function createItem(string $table, array $data) : array {
             $r = new Request($this->_directus);
-            $r->setMethod('createItem', function($directus, $table, $data) {
-                return $directus->createItem($table, $data);
-            });
+            $r->setMethod('createItem');
             $r->setParams($table, $data);
             return $r->send();
         }
@@ -69,9 +67,7 @@
          */
         public function getItems(string $table, array $params = []) : array {
             $r = new Request($this->_directus);
-            $r->setMethod('getItems', function($directus, $table, $params) {
-                return $directus->getItems($table, $params);
-            });
+            $r->setMethod('getItems');
             $r->setParams($table, $params);
             return $this->sendCacheableRequest($r);
         }

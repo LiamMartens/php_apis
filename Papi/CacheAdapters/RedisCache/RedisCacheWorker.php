@@ -53,7 +53,7 @@
             $response = $request->send();
             $this->_redis->set($request->fingerprint(), json_encode([
                 'updated' => time(),
-                'data' => json_decode($response, true)
+                'data' => $response
             ]));
             return true;
         }
