@@ -1,0 +1,6 @@
+{
+    "require": {
+        "curl/curl": "^1.7",
+        "tomaj/hermes": "^1.3"
+    }
+}
