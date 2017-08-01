@@ -33,9 +33,11 @@
 
         /**
          * What additional parameters to pass
+         *
+         * @param array $params
          */
-        public function setParams() {
-            $this->_params = func_get_args();
+        public function setParams(array $params) {
+            $this->_params = $params;
         }
 
         /**

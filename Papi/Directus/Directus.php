@@ -22,20 +22,6 @@
             ]);
         }
 
-        /**
-         * Creates a command to create an item
-         *
-         * @param string $table
-         * @param array $data
-         * @return array
-         */
-        public function createItem(string $table, array $data) : array {
-            $r = new Request($this->_directus);
-            $r->setMethod('createItem');
-            $r->setParams($table, $data);
-            return $r->send();
-        }
-
         protected function sendCacheableRequest(Request $r) : array {
             $cache = $this->getCacheAdapter();
             // get from cache if available
@@ -59,57 +45,22 @@
         }
 
         /**
-         * Fetches items from a table
+         * For passing methods through to directus
          *
-         * @param string $table
-         * @param array $data
-         * @return array
+         * @param string $name
+         * @param array $arguments
+         * @return mixed
          */
-        public function getItems(string $table, array $params = []) : array {
-            $r = new Request($this->_directus);
-            $r->setMethod('getItems');
-            $r->setParams($table, $params);
-            return $this->sendCacheableRequest($r);
-        }
-
-        /**
-         * Fetches a single item from a table
-         *
-         * @param string $table
-         * @param int $id
-         * @return array
-         */
-        public function getItem(string $table, int $id) : array {
-            $r = new Request($this->_directus);
-            $r->setMethod('getItem');
-            $r->setParams($table, $id);
-            return $this->sendCacheableRequest($r);
-        }
-
-        /**
-         * Gets all directus files
-         *
-         * @param array $params
-         * @return array
-         */
-        public function getFiles(array $params = []) : array {
-            $r = new Request($this->_directus);
-            $r->setMethod('getFiles');
-            $r->setParams($params);
-            return $this->sendCacheableRequest($r);
-        }
-
-        /**
-         * Fetches a single item from a table
-         *
-         * @param string $table
-         * @param int $id
-         * @return array
-         */
-        public function getFile(int $id) : array {
-            $r = new Request($this->_directus);
-            $r->setMethod('getFile');
-            $r->setParams($id);
-            return $this->sendCacheableRequest($r);
+        public function __call(string $name, array $arguments) {
+            if(!method_exists($this, $name)&&method_exists($this->_directus, $name)) {
+                $r = new Request($this->_directus);
+                $r->setMethod($name);
+                $r->setParams($arguments);
+                if(preg_match('/^create$/', $name)) {
+                    return $r->send();
+                }
+                return $this->sendCacheableRequest($r);
+            }
+            return false;
         }
     }
