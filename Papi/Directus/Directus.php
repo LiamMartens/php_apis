@@ -31,7 +31,7 @@
          */
         public function createItem(string $table, array $data) : array {
             $r = new Request($this->_directus);
-            $r->setMethod(function($directus, $table, $data) {
+            $r->setMethod('createItem', function($directus, $table, $data) {
                 return $directus->createItem($table, $data);
             });
             $r->setParams($table, $data);
@@ -43,16 +43,16 @@
             // get from cache if available
             if(!empty($cache)) {
                 $expired = false;
-                $data = $cache->get($request, $expired);
+                $data = $cache->get($r, $expired);
                 // if empty? return synchronously
                 if(empty($data)) {
-                   $data = $request->send();
-                   $cache->set($request, $data);
-                   return $data; 
+                   $data = $r->send();
+                   $cache->set($r, $data);
+                   return $data;
                 }
                 // if expired call for update and return cached data
                 if($expired) {
-                    $cache->update($request);
+                    $cache->update($r);
                 }
                 $this->_executed = true;
                 return $data;
@@ -69,7 +69,7 @@
          */
         public function getItems(string $table, array $params = []) : array {
             $r = new Request($this->_directus);
-            $r->setMethod(function($directus, $table, $params) {
+            $r->setMethod('getItems', function($directus, $table, $params) {
                 return $directus->getItems($table, $params);
             });
             $r->setParams($table, $params);

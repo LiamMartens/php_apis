@@ -1,6 +1,6 @@
 <?php
     namespace Papi\CacheAdapters;
-    use anlutro\cURL\Request;
+    use Papi\Request;
 
     abstract class CacheAdapter {
         const EMIT_UPDATE = 'Papi/CacheAdapters/RedisCache/RedisCache/update';
