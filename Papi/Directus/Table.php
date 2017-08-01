@@ -20,10 +20,38 @@
          * @return array
          */
         public function rows(array $params = []) : array {
-            $c = new Command($this->_url, Command::METHOD_GET, 'tables/'.$this->_name.'/rows', $params);
+            $c = new Command($this->_url, Command::METHOD_GET, 'tables/'.urlencode($this->_name).'/rows');
+            if(!empty($cache=$this->getCacheAdapter())) {
+                $c->setCacheAdapter($cache);
+            }
+            return $c->execute($params);
+        }
+
+        /**
+         * Get a single record from a table by ID
+         *
+         * @param int $id
+         * @return array
+         */
+        public function item(int $id) : array {
+            $c = new Command($this->_url, Command::METHOD_GET, 'tables/'.urlencode($this->_name).'/rows/'.$id);
             if(!empty($cache=$this->getCacheAdapter())) {
                 $c->setCacheAdapter($cache);
             }
             return $c->execute();
+        }
+
+        /**
+         * Creates a new item in this table
+         *
+         * @param array $data
+         * @return array
+         */
+        public function create(array $data) : array {
+            $c = new Command($this->_url, Command::METHOD_POST, 'tables/'.urlencode($this->_name).'/rows');
+            if(!empty($cache=$this->getCacheAdapter())) {
+                $c->setCacheAdapter($cache);
+            }
+            return $c->execute($data);
         }
     }

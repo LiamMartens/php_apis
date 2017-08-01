@@ -89,7 +89,7 @@
             $cache = $this->getCacheAdapter();
             $request = $this->request($values);
             // get from cache if available
-            if(!empty($cache)) {
+            if(!empty($cache)&&($this->_method===Command::METHOD_GET)) {
                 $expired = false;
                 $data = $cache->get($request, $expired);
                 // if empty? return synchronously

@@ -156,7 +156,7 @@
             $cache = $this->getCacheAdapter();
             $request = $this->request($values);
             // get from cache if available
-            if(!empty($cache)) {
+            if(!empty($cache)&&($this->_type!==Query::TYPE_MUTATION)) {
                 $expired = false;
                 $data = $cache->get($request, $expired);
                 // if empty? return synchronously

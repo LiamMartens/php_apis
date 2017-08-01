@@ -47,6 +47,25 @@
         }
 
         /**
+         * Requests an API token from the server
+         *
+         * @param string $user
+         * @param string $password
+         * @return string
+         */
+        public function requestToken(string $user, string $password) : string {
+            $c = new Command($this->getApiUrl(), Command::METHOD_POST, 'auth/request-token');
+            $response = $c->execute([
+                'email' => $user,
+                'password' => $password
+            ]);
+            if(isset($response['data']['token'])) {
+                return $response['data']['token'];
+            }
+            return '';
+        }
+
+        /**
          * Creates a table commands wrapper
          *
          * @param string $name
