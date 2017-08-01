@@ -71,4 +71,45 @@
             $r->setParams($table, $params);
             return $this->sendCacheableRequest($r);
         }
+
+        /**
+         * Fetches a single item from a table
+         *
+         * @param string $table
+         * @param int $id
+         * @return array
+         */
+        public function getItem(string $table, int $id) : array {
+            $r = new Request($this->_directus);
+            $r->setMethod('getItem');
+            $r->setParams($table, $id);
+            return $this->sendCacheableRequest($r);
+        }
+
+        /**
+         * Gets all directus files
+         *
+         * @param array $params
+         * @return array
+         */
+        public function getFiles(array $params = []) : array {
+            $r = new Request($this->_directus);
+            $r->setMethod('getFiles');
+            $r->setParams($params);
+            return $this->sendCacheableRequest($r);
+        }
+
+        /**
+         * Fetches a single item from a table
+         *
+         * @param string $table
+         * @param int $id
+         * @return array
+         */
+        public function getFile(int $id) : array {
+            $r = new Request($this->_directus);
+            $r->setMethod('getFile');
+            $r->setParams($id);
+            return $this->sendCacheableRequest($r);
+        }
     }
